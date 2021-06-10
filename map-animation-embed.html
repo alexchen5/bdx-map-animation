@@ -1,4 +1,5 @@
-<div id="map-animation-embed">
+
+    <div id="map-animation-embed">
         <style>
             #map-element svg {
                 width: 100%;
@@ -33,6 +34,7 @@
 
             #map-element {
                 grid-area: map;
+                position: relative;
             }
 
             #city-selection-container {
@@ -81,7 +83,7 @@
                 font-style: normal;
                 font-weight: normal;
                 font-size: 16px;
-                line-height: 16px;
+                line-height: 20px;
             }
             .city-select select:disabled {
                 opacity: 0.35;
@@ -107,8 +109,6 @@
                 padding-top: 12px;
                 color: #00005C;
                 font-weight: 500;
-                font-size: 16px;
-                line-height: 16px;
             }
 
             .city-select-label {
@@ -147,6 +147,61 @@
             
             #city-destination-details[off] {
                 display: none;
+            }
+
+            #map-ping-panel {
+                height: 2px;
+                width: 2px;
+                position: absolute;
+                /* background-color: purple; */
+                display: none;
+                justify-content: center;
+            }
+            #map-ping-panel[active] {
+                display: flex;
+            }
+
+            #map-ping-content {
+                position: absolute;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: white;
+                filter: drop-shadow(20px 20px 60px rgba(7, 21, 58, 0.09));
+                padding: 16px 22px;
+                border-radius: 4px;
+
+                font-family: Metropolis, sans-serif;
+                font-style: normal;
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 18px;
+                color: #00005C;
+                white-space: nowrap;
+
+                bottom: 16px;
+            }
+
+            #map-ping-content [city-label] {
+                text-transform: capitalize;
+            }
+
+            #map-ping-button {
+                position: absolute;
+                background: #FFFFFF;
+                transform: rotate(-45deg);
+                width: 16px;
+                height: 16px;
+                bottom: -8px;
+            }
+
+            #map-ping-panel-ping-holder {
+                width: 88px; 
+                margin: 0px 18px;
+                font-size: 14px;
+                line-height: 14px;
+                color: #05A8D0;
+                text-align: center;                
             }
 
         </style>
@@ -1061,6 +1116,29 @@
                     </filter>
                     </defs>
                 </svg>
+
+                <div id="map-ping-panel">
+                    <div id="map-ping-content">
+                        <div city-label="dc"></div>
+                        <div id="map-ping-panel-ping-holder">
+                            <div id="map-ping-panel-ping"></div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="80" height="19" viewBox="0 0 80 19" fill="none">
+                                    <rect x="11" y="4" width="10" height="1" fill="#05A8D0"/>
+                                    <rect x="23" y="4" width="10" height="1" fill="#05A8D0"/>
+                                    <rect x="35" y="4" width="10" height="1" fill="#05A8D0"/>
+                                    <rect x="47" y="4" width="10" height="1" fill="#05A8D0"/>
+                                    <rect x="59" y="4" width="10" height="1" fill="#05A8D0"/>
+                                    <circle cx="4.5" cy="4.5" r="4" stroke="#05A8D0"/>
+                                    <circle cx="75.5" cy="4.5" r="4" stroke="#05A8D0"/>
+                                    </svg>
+                            </div>
+                        </div>
+                        <div city-label="destination"></div>
+                        <div id="map-ping-button"></div>
+
+                    </div>
+                </div>
             </div>
         </div>
         <script>
@@ -1179,11 +1257,64 @@
 
         </script>
         <script>
+            const alphabetArray = " 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+            async function changeText(el, newText) {
+                if (el.innerHTML === newText) return;
+                const textChangeId = parseInt(el.getAttribute('text-change-id') || 0) + 1;
+                el.setAttribute('text-change-id', textChangeId);
+
+                const clear = setInterval(interval, 5);
+                function interval() {
+                    if (el.getAttribute('text-change-id') != textChangeId || el.innerHTML === newText) {
+                        if (el.innerHTML === newText) el.removeAttribute('text-change-id');
+                        clearInterval(clear);
+                    }
+                    const textArr = [];
+                    for (let i = 0; i < newText.length; i++) {
+                        if (!el.innerHTML[i]) textArr[i] = Math.floor(Math.random() * alphabetArray.length);
+                        else if (el.innerHTML[i] === newText[i]) textArr[i] = alphabetArray.indexOf(el.innerHTML[i]);
+                        else textArr[i] = alphabetArray.indexOf(el.innerHTML[i]) + (alphabetArray.indexOf(el.innerHTML[i]) < alphabetArray.indexOf(newText[i]) ? 1 : -1);
+                    }
+                    const newArr = textArr.map(e => alphabetArray[e]);
+                    el.innerHTML = newArr.join('');
+                }
+            }
+
+            async function changePing(el, newPing) {
+                if (parseInt(el.innerHTML) === parseInt(newPing)) return;
+                const textChangeId = parseInt(el.getAttribute('text-change-id') || 0) + 1;
+                el.setAttribute('text-change-id', textChangeId);
+
+                const clear = setInterval(interval, 80);
+                function interval() {
+                    if (el.getAttribute('text-change-id') != textChangeId || parseInt(el.innerHTML) === parseInt(newPing)) {
+                        if (parseInt(el.innerHTML) === parseInt(newPing)) el.removeAttribute('text-change-id');
+                        clearInterval(clear);
+                    }
+                    const textArr = [];
+                    for (let i = 0; i < newPing.length; i++) {
+                        if (!parseInt(el.innerHTML[i])) textArr[i] = Math.floor(Math.random() * 10 + 1);
+                        else if (el.innerHTML[i] === newPing[i]) textArr[i] = alphabetArray.indexOf(el.innerHTML[i]);
+                        else textArr[i] = alphabetArray.indexOf(el.innerHTML[i]) + (alphabetArray.indexOf(el.innerHTML[i]) < alphabetArray.indexOf(newPing[i]) ? 1 : -1);
+                    }
+                    const newArr = textArr.map(e => alphabetArray[e]);
+                    el.innerHTML = newArr.join('') + 'ms';
+                }
+
+            }
+        </script>
+
+        <script>
             var selectStartCont = document.querySelector("#city-select-start");
             var selectEndCont = document.querySelector("#city-select-end");
             var selectStart = selectStartCont.querySelector('select');
             var selectEnd = selectEndCont.querySelector('select');
             var destinationDetails = document.querySelector("#city-destination-details");
+            var pingPanel = document.querySelector('#map-ping-panel');
+            var pingPanelDc = pingPanel.querySelector('[city-label="dc"]');
+            var pingPanelCt = pingPanel.querySelector('[city-label="destination"]');
+
 
             var showSelection = (cityName) => {
                 selectStartCont.setAttribute('active', '');
@@ -1216,6 +1347,7 @@
                     selectEndCont.removeAttribute('active');
                     destinationDetails.setAttribute('off', '');
                     [...document.querySelectorAll('[dc][city]')].forEach(e => e.removeAttribute('stroke-width'));
+                    pingPanel.removeAttribute('active');
                 }
             }
 
@@ -1223,8 +1355,67 @@
                 selectEndCont.setAttribute('active', '');
                 destinationDetails.removeAttribute('off');
                 [...document.querySelectorAll('[dc][city]')].forEach(e => e.removeAttribute('stroke-width'));
-                document.querySelector(`[dc="${selectStart.value}"][city="${destName}"]`).setAttribute('stroke-width', 2);
-                document.querySelector('#ping-display').innerHTML = datacenterDetails[selectStart.value].endpoint[destName].ping;
+
+                const curLine = document.querySelector(`[dc="${selectStart.value}"][city="${destName}"]`);
+                curLine.setAttribute('stroke-width', 2);
+
+                const dString = curLine.getAttribute('d').replaceAll(',', ' ').replaceAll('M', '').replaceAll('C', ' ');
+                const [ px, py, qx, qy, rx, ry, sx, sy ] = dString.split(/[ ]{1,}/);
+
+                function getMidPoint(p, q, r, s) {
+                    return (parseFloat(p) + 3 * parseFloat(q)  + 3 * parseFloat(r) + parseFloat(s)) / 8;
+                }
+                const [ anchorX, anchorY ] = [ getMidPoint(px, qx, rx, sx), getMidPoint(py, qy, ry, sy) ];
+
+                const rootSVG = document.querySelector('#map-element svg');
+                const point = rootSVG.createSVGPoint();
+                let matrix, position;
+
+                matrix = curLine.getCTM();
+                point.x = anchorX;
+                point.y = anchorY;
+                position = point.matrixTransform(matrix);
+ 
+                pingPanel.style.left = position.x + 'px';
+                pingPanel.style.top = position.y + 'px';
+
+                // pingPanelDc.innerHTML = selectStart.value.replaceAll('-', ' ');
+                changeText(pingPanelDc, selectStart.value.replaceAll('-', ' '));
+                changeText(pingPanelCt, destName.replaceAll('-', ' ') === 'la' ? 'LA' : destName.replaceAll('-', ' '));
+                changePing(document.querySelector('#map-ping-panel-ping'), `${parseInt(datacenterDetails[selectStart.value].endpoint[destName].ping)}`);
+                changePing(document.querySelector('#ping-display'), `${parseInt(datacenterDetails[selectStart.value].endpoint[destName].ping)}`);
+
+                // const popupHTML = document.querySelector('#map-ping-panel-ping');
+                // const panelHTML = document.querySelector('#ping-display');
+
+                // // if (pingPanel.hasAttribute('active')) {
+                // //     const prvPing = parseInt(popupHTML.innerHTML);
+                // //     const newPing = parseInt(datacenterDetails[selectStart.value].endpoint[destName].ping);
+                // //     let curPing = prvPing;
+                // //     const clear = setInterval(interval, 20);
+                // //     // const step = parseInt((newPing - prvPing) / (2000 / 20));
+                // //     const step = ((newPing - prvPing) > 0) ? 1 : -1;
+
+                // //     function interval() {
+                // //         curPing += step;
+
+                // //         popupHTML.innerHTML = curPing + 'ms';
+                // //         panelHTML.innerHTML = curPing + 'ms';
+                // //         if (Math.abs(newPing - curPing) <= step || !step) {
+                // //             popupHTML.innerHTML = newPing + 'ms';
+                // //             panelHTML.innerHTML = newPing + 'ms';
+                // //             clearInterval(clear);
+                // //         };
+                // //     }
+                // // } else {
+                // //     popupHTML.innerHTML = parseInt(datacenterDetails[selectStart.value].endpoint[destName].ping) + 'ms';
+                // //     panelHTML.innerHTML = parseInt(datacenterDetails[selectStart.value].endpoint[destName].ping) + 'ms';
+
+                // // }
+
+                // popupHTML.innerHTML = parseInt(datacenterDetails[selectStart.value].endpoint[destName].ping) + 'ms';
+                // panelHTML.innerHTML = parseInt(datacenterDetails[selectStart.value].endpoint[destName].ping) + 'ms';
+                pingPanel.setAttribute('active', '');
             }
 
             selectStart.addEventListener('change', () => {
@@ -1241,6 +1432,8 @@
                     [...document.querySelectorAll(`.city-group`)].forEach(group => {
                         group.removeAttribute('on');
                     });
+                    pingPanel.removeAttribute('active');
+
                 }
             })
 
@@ -1251,6 +1444,7 @@
                     selectEndCont.removeAttribute('active');
                     destinationDetails.setAttribute('off', '');
                     [...document.querySelectorAll('[dc][city]')].forEach(e => e.removeAttribute('stroke-width'));
+                    pingPanel.removeAttribute('active');
                 }
             })
         </script>
