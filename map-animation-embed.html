@@ -43,6 +43,7 @@
             #map-element-label {
                 display: flex;
                 justify-content: center;
+                margin-top: 12px;
             }
 
             #city-selection-container {
@@ -214,6 +215,50 @@
                 color: #05A8D0;
                 text-align: center;                
             }
+            #map-side-panel-a {
+                padding-bottom: 16px;
+            }
+            #map-side-panel-b {
+                background: #FFFFFF;
+                border: 1px solid #E7E7E9;
+                box-sizing: border-box;
+                box-shadow: 0px 10px 20px rgba(7, 21, 58, 0.05);
+                border-radius: 8px;
+                padding: 20px 14px;
+
+                font-style: normal;
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 16px;
+                color: #000000;
+            }
+
+            .service-container {
+                display: grid;
+                margin: 16px 0px;
+                grid-template-columns: 1fr 1fr 1fr;
+                grid-auto-rows: 46px;
+                column-gap: 6px;
+                row-gap: 8px;
+            }
+
+            .service-item {
+                background: #FFFFFF;
+                border: 1px solid #E7E7E9;
+                box-sizing: border-box;
+                border-radius: 4px;
+                display: none;
+            }
+            .service-item[telco-partner] {
+                cursor: pointer;
+            }
+            .service-item[show] {
+                display: block;
+            }
+            .service-item[active] {
+                border: 1.5px solid #05A8D0;
+                box-shadow: 0px 4px 10px rgba(41, 62, 64, 0.1);
+            }
 
             @media screen and (max-width: 1024px) {
                 #map-container {
@@ -246,7 +291,6 @@
                 }
                 #map-side-panel-b {
                     grid-area: partners;
-                    background-color: pink;
                 }
 
                 #map-ping-content {
@@ -374,7 +418,70 @@
                         <div id="ping-display">158ms</div>
                     </div>
                 </div>
-                <div id="map-side-panel-b"></div>
+                <div id="map-side-panel-b">
+                    <div id="telco-block">
+                        <div>Telco Partners</div>
+                        <div class="service-container">
+                            <div class="service-item" telco-partner="hgc">hgc</div>
+                            <div class="service-item" telco-partner="ct">ct</div>
+                            <div class="service-item" telco-partner="cu">cu</div>
+                            <div class="service-item" telco-partner="cm">cm</div>
+                            <div class="service-item" telco-partner="guangzhou-shunhang">guangzhou-shunhang</div>
+                            <div class="service-item" telco-partner="guangzhou-anju">guangzhou-anju</div>
+                            <div class="service-item" telco-partner="logicom-tech">logicom-tech</div>
+                            <div class="service-item" telco-partner="guangzhou-yingtong">guangzhou-yingtong</div>
+                            <div class="service-item" telco-partner="guangzhou-yunju">guangzhou-yunju</div>
+                            <div class="service-item" telco-partner="nova">nova</div>
+                            <div class="service-item" telco-partner="pccw">pccw</div>
+                            <div class="service-item" telco-partner="hkbn">hkbn</div>
+                            <div class="service-item" telco-partner="hk-telecom">hk-telecom</div>
+                            <div class="service-item" telco-partner="srt">srt</div>
+                            <div class="service-item" telco-partner="citic">citic</div>
+                            <div class="service-item" telco-partner="singtel">singtel</div>
+                            <div class="service-item" telco-partner="starhub">starhub</div>
+                            <div class="service-item" telco-partner="telstra">telstra</div>
+                            <div class="service-item" telco-partner="m1">m1</div>
+                            <div class="service-item" telco-partner="sp-telecom">sp-telecom</div>
+                            <div class="service-item" telco-partner="at&t">at&t</div>
+                            <div class="service-item" telco-partner="superloop">superloop</div>
+                            <div class="service-item" telco-partner="cogent">cogent</div>
+                            <div class="service-item" telco-partner="netlink-trust">netlink-trust</div>
+                            <div class="service-item" telco-partner="viewquest">viewquest</div>
+                        </div>
+                    </div>
+                    <div id="telco-separator">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="312" height="15" viewBox="0 0 312 15" fill="none">
+                            <path d="M0 1H142L155.5 14L169 1H312" stroke="#E7E7E9"/>
+                        </svg>
+                    </div>
+                    <div id="providers-block">
+                        <div>Cloud Providers</div>
+                        <div class="service-container">
+                            <div class="service-item" cloud-provider="aws">aws</div>
+                            <div class="service-item" cloud-provider="azure">azure</div>
+                            <div class="service-item" cloud-provider="gcp">gcp</div>
+                            <div class="service-item" cloud-provider="alibaba">alibaba</div>
+                            <div class="service-item" cloud-provider="alicloud">alicloud</div>  <!-- same as alibaba? -->
+                            <div class="service-item" cloud-provider="ibm">ibm</div>
+                            <div class="service-item" cloud-provider="huawei">huawei</div>
+                            <div class="service-item" cloud-provider="huawei-cloud">huawei-cloud</div> <!-- same as huawei? -->
+                            <div class="service-item" cloud-provider="salesforce">salesforce</div>
+                            <div class="service-item" cloud-provider="office-365">office-365</div>
+                            <div class="service-item" cloud-provider="oracle">oracle</div>
+                            <div class="service-item" cloud-provider="tencent">tencent</div>
+                            <div class="service-item" cloud-provider="tencent-cloud">tencent-cloud</div> <!-- same as tencent? -->
+                            <div class="service-item" cloud-provider="ct-cloud">ct-cloud</div>
+                            <div class="service-item" cloud-provider="u-cloud">u-cloud</div>
+                            <div class="service-item" cloud-provider="baidu">baidu</div>
+                            <div class="service-item" cloud-provider="vmware">vmware</div>
+                            <div class="service-item" cloud-provider="dell-emc">dell-emc</div>
+                            <div class="service-item" cloud-provider="hpe">hpe</div>
+                            <div class="service-item" cloud-provider="nutanix">nutanix</div>
+                            <div class="service-item" cloud-provider="chef">chef</div>
+                            <div class="service-item" cloud-provider="netapp">netapp</div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div id="map-element-holder">
                 <div id=map-element-label>
@@ -1232,7 +1339,6 @@
                         </filter>
                         </defs>
                     </svg>
-
                     <div id="map-ping-panel">
                         <div id="map-ping-content">
                             <div city-label="dc"></div>
@@ -1252,7 +1358,6 @@
                             </div>
                             <div city-label="destination"></div>
                             <div id="map-ping-button"></div>
-
                         </div>
                     </div>
                 </div>
@@ -1261,6 +1366,7 @@
         <script>
             var datacenterDetails = {
                 'guangzhou': {
+                    'name': 'CAN1',
                     'endpoint': {
                         'frankurt': {
                             'ping': 162,
@@ -1290,8 +1396,21 @@
                             'ping': 163,
                         },
                     },
+                    'telco-partners': {
+                        'hgc': ['aws', 'azure', 'gcp', 'alibaba'],
+                        'ct': ['aws', 'azure', 'alibaba', 'ibm'],
+                        'cu': ['alibaba'],
+                        'cm': ['aws', 'azure', 'gcp', 'alibaba', 'ibm', 'huawei-cloud'],
+                        'guangzhou-shunhang': [],
+                        'guangzhou-anju': [],
+                        'logicom-tech': [],
+                        'guangzhou-yingtong': [],
+                        'guangzhou-yunju': [],
+                        'nova': [],
+                    },
                 },
                 'kwai-chung': {
+                    'name': 'HKG2',
                     'endpoint': {
                         'guangzhou': {
                             'ping': 10,
@@ -1309,8 +1428,15 @@
                             'ping': 116,
                         },
                     },
+                    'telco-partners': {
+                        'hgc': ['aws', 'azure', 'gcp', 'alibaba', 'salesforce', 'office-365'],
+                        'pccw': ['aws', 'azure', 'gcp', 'oracle', 'alibaba', 'ibm', 'tencent'],
+                        'hkbn': [],
+                        'hk-telecom': [],
+                    },
                 },
                 'nanjing': {
+                    'name': 'NKG1',
                     'endpoint': {
                         'frankurt': {
                             'ping': 154,
@@ -1340,8 +1466,16 @@
                             'ping': 164,
                         },
                     },
+                    'telco-partners': {
+                        'cu': ['alibaba', 'ct-cloud'],
+                        'cm': ['aws', 'azure', 'gcp', 'alibaba', 'ibm', 'huawei-cloud'],
+                        'srt': ['aws', 'alicloud', 'tencent-cloud', 'azure', 'huawei', 'u-cloud', 'baidu'],
+                        'nova': ['aws', 'salesforce', 'office-365', 'alicloud', 'tencent-cloud', 'azure'],
+                        'citic': ['aws', 'alicloud', 'tencent-cloud', 'azure', 'huawei', 'u-cloud', 'baidu'],
+                    },
                 },
                 'paya-lebar': {
+                    'name': 'SIN1',
                     'endpoint': {
                         'guangzhou': {
                             'ping': 45,
@@ -1350,8 +1484,22 @@
                             'ping': 65,
                         },
                     },
+                    'telco-partners': {
+                        'singtel': ['aws', 'azure', 'gcp', 'alibaba', 'office-365', 'vmware', 'dell-emc', 'hpe', 'nutanix', 'chef'],
+                        'starhub': ['aws', 'azure'],
+                        'telstra': ['aws', 'azure', 'ibm', 'vmware', 'netapp'],
+                        'm1': ['aws', 'nutanix'],
+                        'hgc': ['aws', 'azure', 'office-365'],
+                        'sp-telecom': ['aws', 'azure', 'gcp', 'alibaba'],
+                        'at&t': ['aws', 'azure', 'gcp', 'oracle', 'ibm', 'salesforce', 'dell-emc'],
+                        'superloop': [],
+                        'cogent': [],
+                        'netlink-trust': [],
+                        'viewquest': [],
+                    },
                 },
                 'wong-chuk-hang': {
+                    'name': 'HKG1',
                     'endpoint': {
                         'guangzhou': {
                             'ping': 10,
@@ -1368,6 +1516,10 @@
                         'sydney': {
                             'ping': 116,
                         },
+                    },
+                    'telco-partners': {
+                        'hgc': ['aws', 'azure', 'gcp', 'alibaba', 'salesforce', 'office-365'],
+                        'hk-telecom': [],
                     },
                 },
             };
@@ -1429,7 +1581,8 @@
             var pingPanel = document.querySelector('#map-ping-panel');
             var pingPanelDc = pingPanel.querySelector('[city-label="dc"]');
             var pingPanelCt = pingPanel.querySelector('[city-label="destination"]');
-
+            var telcoBlock = document.querySelector('#telco-block');
+            var providersBlock = document.querySelector('#providers-block');
 
             var showSelection = (cityName) => {
                 selectStartCont.setAttribute('active', '');
@@ -1438,6 +1591,7 @@
 
                 const curEndpoints = Object.keys(datacenterDetails[cityName].endpoint);
                 const datacentres = Object.keys(datacenterDetails);
+                const curPartners = Object.keys(datacenterDetails[cityName]['telco-partners']);
                 [...document.querySelectorAll(`.city-group`)].forEach(group => {
                     if (group.id === cityName) group.setAttribute('dc', '');
                     else group.removeAttribute('dc');
@@ -1467,6 +1621,26 @@
                     [...document.querySelectorAll('[dc][city]')].forEach(e => e.removeAttribute('stroke-width'));
                     pingPanel.removeAttribute('active');
                 }
+
+                [...telcoBlock.querySelectorAll('[telco-partner]')].forEach(partner => {
+                    curPartners.includes(partner.getAttribute('telco-partner')) ? partner.setAttribute('show', '') : partner.removeAttribute('show');
+                });
+
+                if (curPartners.includes(telcoBlock.getAttribute('active-partner'))) {
+                    const curProviders = datacenterDetails[cityName]['telco-partners'][telcoBlock.getAttribute('active-partner')];
+                    [...providersBlock.querySelectorAll('[cloud-provider]')].forEach(provider => {
+                        if (curProviders.includes(provider.getAttribute('cloud-provider'))) {
+                            provider.setAttribute('show', '');
+                        } else {
+                            provider.removeAttribute('show');
+                        }
+                    });
+                } else {
+                    [...providersBlock.querySelectorAll('[cloud-provider]')].forEach(provider => {
+                        provider.removeAttribute('show');
+                    });
+
+                }
             }
 
             var closeSelection = () => {
@@ -1478,6 +1652,13 @@
                 [...document.querySelectorAll(`.city-group`)].forEach(group => {
                     if (Object.keys(datacenterDetails).includes(group.id)) group.setAttribute('dc', '');
                     group.removeAttribute('on');
+                });
+                [...telcoBlock.querySelectorAll('[telco-partner]')].forEach(partner => {
+                    partner.removeAttribute('show');
+                });
+
+                [...providersBlock.querySelectorAll('[cloud-provider]')].forEach(provider => {
+                    provider.removeAttribute('show');
                 });
                 closeDestination();
             }
@@ -1530,7 +1711,7 @@
                 } else {
                     closeSelection();
                 }
-            })
+            });
 
             selectEnd.addEventListener('change', () => {
                 if (selectEnd.value) {
@@ -1538,6 +1719,29 @@
                 } else {
                     closeDestination();
                 }
-            })
+            });
+
+            [...telcoBlock.querySelectorAll('[telco-partner]')].forEach(block => {
+                block.addEventListener('click', (e) => {
+                    telcoBlock.setAttribute('active-partner', e.currentTarget.getAttribute('telco-partner'));
+                    [...telcoBlock.querySelectorAll('[telco-partner]')].forEach(partner => {
+                        partner.removeAttribute('active');
+                    });
+                    e.currentTarget.setAttribute('active', '');
+                    
+                    const curProviders = datacenterDetails[selectStart.value]['telco-partners'][e.currentTarget.getAttribute('telco-partner')];
+                    [...providersBlock.querySelectorAll('[cloud-provider]')].forEach(provider => {
+                        if (curProviders.includes(provider.getAttribute('cloud-provider'))) {
+                            provider.setAttribute('show', '');
+                        } else {
+                            provider.removeAttribute('show');
+                        }
+                    });
+                });
+            });
+            
+            // [...providersBlock.querySelectorAll('[cloud-provider]')].forEach(e => {
+
+            // });
         </script>
     </div>
