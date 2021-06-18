@@ -1,4 +1,5 @@
-<div id="map-animation-embed">
+
+    <div id="map-animation-embed">
         <style>
             #map-element svg {
                 width: 100%;
@@ -21,6 +22,8 @@
                 background-color: white;
                 box-shadow: 1px 0px 0px rgba(0, 0, 0, 0.08);
                 padding: 60px 20px;
+                min-height: 650px;
+                overflow: hidden;
             }
             
             #map-side-panel h2 {
@@ -224,13 +227,23 @@
                 box-sizing: border-box;
                 box-shadow: 0px 10px 20px rgba(7, 21, 58, 0.05);
                 border-radius: 8px;
-                padding: 20px 14px;
+                padding: 0px 14px;
 
                 font-style: normal;
                 font-weight: 500;
                 font-size: 16px;
                 line-height: 16px;
                 color: #000000;
+
+                position: relative;
+                left: -500px;
+                transition: left ease 300ms, top ease 300ms;
+
+                overflow: hidden;
+            }
+            #map-side-panel-b[on] {
+                left: 0px;
+                top: 0px;
             }
 
             .service-container {
@@ -247,17 +260,77 @@
                 border: 1px solid #E7E7E9;
                 box-sizing: border-box;
                 border-radius: 4px;
+                padding: 4px;
                 display: none;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                font-size: 14px;
+                color: rgba(0, 0, 0, 0.8);
             }
             .service-item[telco-partner] {
                 cursor: pointer;
             }
             .service-item[show] {
-                display: block;
+                display: flex;
             }
             .service-item[active] {
-                border: 1.5px solid #05A8D0;
+                border: 1px solid #05A8D0;
                 box-shadow: 0px 4px 10px rgba(41, 62, 64, 0.1);
+            }
+
+            .service-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+
+            #telco-block {
+                background-color: white;
+                position: relative;
+                z-index: 3;
+                padding-top: 20px;
+            }
+
+            #telco-separator {
+                position: relative;
+                background-color: white;
+                width: 100%;
+                z-index: 2;
+                top: -50px;
+                transition: top 300ms ease 260ms;
+            }
+            #telco-separator[active] {
+                top: 0px;
+                transition: top 300ms ease;
+            }
+            
+            #providers-block {
+                position: relative;
+                background-color: white;
+                z-index: 1;
+                top: -500px;
+                min-height: 200px;
+                padding-bottom: 20px;
+                transition: top 300ms ease;
+            }
+            #providers-block[active] {
+                top: 0px;
+                transition: top 300ms ease 260ms;
+            }
+
+            #providers-block-content {
+                background-color: white;
+                position: relative;
+                z-index: 2;
+                min-height: 200px;
+            }
+
+            #providers-block-placeholder {
+                position: absolute;
+                text-align: center;
+                top: 20px;
+                width: 100%;
             }
 
             @media screen and (max-width: 1024px) {
@@ -279,6 +352,7 @@
                     box-sizing: border-box;
                     box-shadow: 0px 20px 50px rgba(7, 21, 58, 0.07);
                     border-radius: 8px;
+                    min-height: 500px;
 
                     position: relative;
                     z-index: 1;
@@ -291,6 +365,8 @@
                 }
                 #map-side-panel-b {
                     grid-area: partners;
+                    left: 0px;
+                    top: -1000px;
                 }
 
                 #map-ping-content {
@@ -422,64 +498,136 @@
                     <div id="telco-block">
                         <div>Telco Partners</div>
                         <div class="service-container">
-                            <div class="service-item" telco-partner="hgc">hgc</div>
-                            <div class="service-item" telco-partner="ct">ct</div>
-                            <div class="service-item" telco-partner="cu">cu</div>
-                            <div class="service-item" telco-partner="cm">cm</div>
-                            <div class="service-item" telco-partner="guangzhou-shunhang">guangzhou-shunhang</div>
-                            <div class="service-item" telco-partner="guangzhou-anju">guangzhou-anju</div>
-                            <div class="service-item" telco-partner="logicom-tech">logicom-tech</div>
-                            <div class="service-item" telco-partner="guangzhou-yingtong">guangzhou-yingtong</div>
-                            <div class="service-item" telco-partner="guangzhou-yunju">guangzhou-yunju</div>
-                            <div class="service-item" telco-partner="nova">nova</div>
-                            <div class="service-item" telco-partner="pccw">pccw</div>
-                            <div class="service-item" telco-partner="hkbn">hkbn</div>
-                            <div class="service-item" telco-partner="hk-telecom">hk-telecom</div>
-                            <div class="service-item" telco-partner="srt">srt</div>
-                            <div class="service-item" telco-partner="citic">citic</div>
-                            <div class="service-item" telco-partner="singtel">singtel</div>
-                            <div class="service-item" telco-partner="starhub">starhub</div>
-                            <div class="service-item" telco-partner="telstra">telstra</div>
-                            <div class="service-item" telco-partner="m1">m1</div>
-                            <div class="service-item" telco-partner="sp-telecom">sp-telecom</div>
-                            <div class="service-item" telco-partner="at&t">at&t</div>
-                            <div class="service-item" telco-partner="superloop">superloop</div>
-                            <div class="service-item" telco-partner="cogent">cogent</div>
-                            <div class="service-item" telco-partner="netlink-trust">netlink-trust</div>
-                            <div class="service-item" telco-partner="viewquest">viewquest</div>
+                            <div class="service-item" telco-partner="hgc">
+                                <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf4755607584a8bd68f70_image4-35.png" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="ct">
+                                <img style="object-fit: cover;" src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf475187018745522fe36_image12-45.png" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="cu">
+                                <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf475ef191b7faead2422_image11-44.png" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="cm">
+                                <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf476baeefb00a8aebf8c_image13-47.png" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="guangzhou-shunhang">Shunhang Coms.</div>
+                            <div class="service-item" telco-partner="guangzhou-anju">Anju Coms.</div>
+                            <div class="service-item" telco-partner="logicom-tech">Logicom Tech</div>
+                            <div class="service-item" telco-partner="guangzhou-yingtong">YingTong Coms.</div>
+                            <div class="service-item" telco-partner="guangzhou-yunju">YunJu Coms.</div>
+                            <div class="service-item" telco-partner="nova">
+                                <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf4769329d90332c90e87_image14-49.png" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="pccw">
+                                <img style="object-fit: cover;" src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf476a1155a9120769798_image16-52.png" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="hkbn">HKBN</div>
+                            <div class="service-item" telco-partner="hk-telecom">HK Telecom</div>
+                            <div class="service-item" telco-partner="srt">SRIT</div>
+                            <div class="service-item" telco-partner="citic">
+                                <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf47646fc80772e8912b2_image15-51.png" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="singtel">
+                                <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf4758bf91163d9e359a4_image1-30.png" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="starhub">
+                                <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf4755b301bdbeb37f035_image2-32.png" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="telstra">
+                                <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf475fb6316de57568750_image3-34.png" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="m1">
+                                <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf475f47cd4278708f6a4_image7-38.png" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="sp-telecom">
+                                <img style="object-fit: cover;" src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf475ce1188d7e9beaf0e_image5-36.png" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="at&t">
+                                <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf4740529c64cde1b6a25_image6-37.png" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="superloop">
+                                <img style="object-fit: cover;" src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf4752a3de511f0e15642_image9-40.png" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="cogent">Cogent</div>
+                            <div class="service-item" telco-partner="netlink-trust">
+                                <img style="object-fit: cover;" src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf47548bbf7575c6b70cc_image8-39.jpeg" loading="lazy" alt="">
+                            </div>
+                            <div class="service-item" telco-partner="viewquest">
+                                <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf4750182f83e63182ab2_image10-42.jpeg" loading="lazy" alt="">
+                            </div>
                         </div>
                     </div>
                     <div id="telco-separator">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="312" height="15" viewBox="0 0 312 15" fill="none">
+                        <svg style="width: 100%;" xmlns="http://www.w3.org/2000/svg" width="312" height="15" viewBox="0 0 312 15" fill="none">
                             <path d="M0 1H142L155.5 14L169 1H312" stroke="#E7E7E9"/>
                         </svg>
                     </div>
                     <div id="providers-block">
-                        <div>Cloud Providers</div>
-                        <div class="service-container">
-                            <div class="service-item" cloud-provider="aws">aws</div>
-                            <div class="service-item" cloud-provider="azure">azure</div>
-                            <div class="service-item" cloud-provider="gcp">gcp</div>
-                            <div class="service-item" cloud-provider="alibaba">alibaba</div>
-                            <div class="service-item" cloud-provider="alicloud">alicloud</div>  <!-- same as alibaba? -->
-                            <div class="service-item" cloud-provider="ibm">ibm</div>
-                            <div class="service-item" cloud-provider="huawei">huawei</div>
-                            <div class="service-item" cloud-provider="huawei-cloud">huawei-cloud</div> <!-- same as huawei? -->
-                            <div class="service-item" cloud-provider="salesforce">salesforce</div>
-                            <div class="service-item" cloud-provider="office-365">office-365</div>
-                            <div class="service-item" cloud-provider="oracle">oracle</div>
-                            <div class="service-item" cloud-provider="tencent">tencent</div>
-                            <div class="service-item" cloud-provider="tencent-cloud">tencent-cloud</div> <!-- same as tencent? -->
-                            <div class="service-item" cloud-provider="ct-cloud">ct-cloud</div>
-                            <div class="service-item" cloud-provider="u-cloud">u-cloud</div>
-                            <div class="service-item" cloud-provider="baidu">baidu</div>
-                            <div class="service-item" cloud-provider="vmware">vmware</div>
-                            <div class="service-item" cloud-provider="dell-emc">dell-emc</div>
-                            <div class="service-item" cloud-provider="hpe">hpe</div>
-                            <div class="service-item" cloud-provider="nutanix">nutanix</div>
-                            <div class="service-item" cloud-provider="chef">chef</div>
-                            <div class="service-item" cloud-provider="netapp">netapp</div>
+                        <div id="providers-block-content">
+                            <div>Cloud Providers</div>
+                            <div class="service-container">
+                                <div class="service-item" cloud-provider="aws">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c870646d6551d560a_image2-31.png" loading="lazy" sizes="(max-width: 1200px) 100vw, 1200px" srcset="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c870646d6551d560a_image2-31-p-500.png 500w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c870646d6551d560a_image2-31-p-800.png 800w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c870646d6551d560a_image2-31-p-1080.png 1080w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c870646d6551d560a_image2-31.png 1200w" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="azure">
+                                    <img style="object-fit: cover;" src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c8c3c2cf4e5e0db08_image3-33.png" loading="lazy" sizes="(max-width: 3000px) 100vw, 3000px" srcset="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c8c3c2cf4e5e0db08_image3-33-p-500.png 500w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c8c3c2cf4e5e0db08_image3-33-p-800.png 800w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c8c3c2cf4e5e0db08_image3-33-p-1080.png 1080w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c8c3c2cf4e5e0db08_image3-33-p-1600.png 1600w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c8c3c2cf4e5e0db08_image3-33-p-2000.png 2000w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c8c3c2cf4e5e0db08_image3-33-p-2600.png 2600w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c8c3c2cf4e5e0db08_image3-33.png 3000w" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="gcp">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c187018046922ffa4_image4-35.png" loading="lazy" sizes="(max-width: 1502px) 100vw, 1502px" srcset="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c187018046922ffa4_image4-35-p-500.png 500w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c187018046922ffa4_image4-35-p-800.png 800w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c187018046922ffa4_image4-35-p-1080.png 1080w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c187018046922ffa4_image4-35.png 1502w" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="alicloud">
+                                    <img style="object-fit: cover;" src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d9f1ddae9156c7f08_image9-44.png" loading="lazy" sizes="(max-width: 2668px) 100vw, 2668px" srcset="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d9f1ddae9156c7f08_image9-44-p-500.png 500w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d9f1ddae9156c7f08_image9-44-p-800.png 800w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d9f1ddae9156c7f08_image9-44-p-1080.png 1080w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d9f1ddae9156c7f08_image9-44-p-1600.png 1600w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d9f1ddae9156c7f08_image9-44-p-2000.png 2000w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d9f1ddae9156c7f08_image9-44-p-2600.png 2600w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d9f1ddae9156c7f08_image9-44.png 2668w" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="ibm">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c390ab39022940c4c_image5-37.png" loading="lazy" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="huawei">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d8c3c2cfc40e0db0a_image11-small-48.png" loading="lazy" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="salesforce">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c56075874f3d691a2_image6-39.png" loading="lazy" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="office-365">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51bbaeefb39a3aec142_image1-30.png" loading="lazy" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="oracle">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d8c3c2c760de0db09_image8-42.png" loading="lazy" sizes="(max-width: 1200px) 100vw, 1200px" srcset="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d8c3c2c760de0db09_image8-42-p-500.png 500w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d8c3c2c760de0db09_image8-42-p-800.png 800w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d8c3c2c760de0db09_image8-42-p-1080.png 1080w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d8c3c2c760de0db09_image8-42.png 1200w" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="tencent">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c49304b694de65a80_image7-40.png" loading="lazy" sizes="(max-width: 560px) 100vw, 560px" srcset="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c49304b694de65a80_image7-40-p-500.png 500w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51c49304b694de65a80_image7-40.png 560w" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="ct-cloud">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d436a0e49d3cb53a4_image10-46.png" loading="lazy" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="u-cloud">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d49304b9427e65a81_image13-50.png" loading="lazy" sizes="(max-width: 764px) 100vw, 764px" srcset="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d49304b9427e65a81_image13-50-p-500.png 500w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d49304b9427e65a81_image13-50.png 764w" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="baidu">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51d0261308ce0fbdce8_image12-49.png" loading="lazy" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="vmware">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51ec46546c224ce195b_image19-62.png" loading="lazy" sizes="(max-width: 620px) 100vw, 620px" srcset="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51ec46546c224ce195b_image19-62-p-500.png 500w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51ec46546c224ce195b_image19-62.png 620w" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="dell-emc">
+                                    <img style="object-fit: cover;" src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e48bbf738a16b7359_image18-60.png" loading="lazy" sizes="(max-width: 3000px) 100vw, 3000px" srcset="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e48bbf738a16b7359_image18-60-p-500.png 500w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e48bbf738a16b7359_image18-60-p-800.png 800w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e48bbf738a16b7359_image18-60-p-1080.png 1080w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e48bbf738a16b7359_image18-60-p-1600.png 1600w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e48bbf738a16b7359_image18-60-p-2000.png 2000w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e48bbf738a16b7359_image18-60-p-2600.png 2600w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e48bbf738a16b7359_image18-60.png 3000w" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="hpe">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51ee50f53d86b9b96a3_image17-58.png" loading="lazy" sizes="(max-width: 1200px) 100vw, 1200px" srcset="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51ee50f53d86b9b96a3_image17-58-p-500.png 500w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51ee50f53d86b9b96a3_image17-58-p-800.png 800w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51ee50f53d86b9b96a3_image17-58-p-1080.png 1080w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51ee50f53d86b9b96a3_image17-58.png 1200w" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="nutanix">
+                                    <img style="object-fit: cover;" src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e49304be132e65a82_image16-56.png" loading="lazy" sizes="(max-width: 3000px) 100vw, 3000px" srcset="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e49304be132e65a82_image16-56-p-500.png 500w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e49304be132e65a82_image16-56-p-800.png 800w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e49304be132e65a82_image16-56-p-1080.png 1080w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e49304be132e65a82_image16-56-p-1600.png 1600w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e49304be132e65a82_image16-56-p-2000.png 2000w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e49304be132e65a82_image16-56-p-2600.png 2600w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e49304be132e65a82_image16-56.png 3000w" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="chef">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e6b7602503d1b24b5_image15-54.png" loading="lazy" sizes="(max-width: 1200px) 100vw, 1200px" srcset="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e6b7602503d1b24b5_image15-54-p-500.png 500w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e6b7602503d1b24b5_image15-54-p-800.png 800w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e6b7602503d1b24b5_image15-54-p-1080.png 1080w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51e6b7602503d1b24b5_image15-54.png 1200w" alt="">
+                                </div>
+                                <div class="service-item" cloud-provider="netapp">
+                                    <img src="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51dcfa515eef5267e14_image14-52.png" loading="lazy" sizes="(max-width: 1200px) 100vw, 1200px" srcset="https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51dcfa515eef5267e14_image14-52-p-500.png 500w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51dcfa515eef5267e14_image14-52-p-800.png 800w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51dcfa515eef5267e14_image14-52-p-1080.png 1080w, https://assets-global.website-files.com/5f22d8281aaa21375aee7b55/60cbf51dcfa515eef5267e14_image14-52.png 1200w" alt="">
+                                </div>
+                            
+                            
+                            </div>
                         </div>
+                        <div id="providers-block-placeholder">Network Provider</div>
                     </div>
                 </div>
             </div>
@@ -1397,10 +1545,10 @@
                         },
                     },
                     'telco-partners': {
-                        'hgc': ['aws', 'azure', 'gcp', 'alibaba'],
-                        'ct': ['aws', 'azure', 'alibaba', 'ibm'],
-                        'cu': ['alibaba'],
-                        'cm': ['aws', 'azure', 'gcp', 'alibaba', 'ibm', 'huawei-cloud'],
+                        'hgc': ['aws', 'azure', 'gcp', 'alicloud'],
+                        'ct': ['aws', 'azure', 'alicloud', 'ibm'],
+                        'cu': ['alicloud'],
+                        'cm': ['aws', 'azure', 'gcp', 'alicloud', 'ibm', 'huawei'],
                         'guangzhou-shunhang': [],
                         'guangzhou-anju': [],
                         'logicom-tech': [],
@@ -1429,8 +1577,8 @@
                         },
                     },
                     'telco-partners': {
-                        'hgc': ['aws', 'azure', 'gcp', 'alibaba', 'salesforce', 'office-365'],
-                        'pccw': ['aws', 'azure', 'gcp', 'oracle', 'alibaba', 'ibm', 'tencent'],
+                        'hgc': ['aws', 'azure', 'gcp', 'alicloud', 'salesforce', 'office-365'],
+                        'pccw': ['aws', 'azure', 'gcp', 'oracle', 'alicloud', 'ibm', 'tencent'],
                         'hkbn': [],
                         'hk-telecom': [],
                     },
@@ -1467,11 +1615,11 @@
                         },
                     },
                     'telco-partners': {
-                        'cu': ['alibaba', 'ct-cloud'],
-                        'cm': ['aws', 'azure', 'gcp', 'alibaba', 'ibm', 'huawei-cloud'],
-                        'srt': ['aws', 'alicloud', 'tencent-cloud', 'azure', 'huawei', 'u-cloud', 'baidu'],
-                        'nova': ['aws', 'salesforce', 'office-365', 'alicloud', 'tencent-cloud', 'azure'],
-                        'citic': ['aws', 'alicloud', 'tencent-cloud', 'azure', 'huawei', 'u-cloud', 'baidu'],
+                        'cu': ['alicloud', 'ct-cloud'],
+                        'cm': ['aws', 'azure', 'gcp', 'alicloud', 'ibm', 'huawei'],
+                        'srt': ['aws', 'alicloud', 'tencent', 'azure', 'huawei', 'u-cloud', 'baidu'],
+                        'nova': ['aws', 'salesforce', 'office-365', 'alicloud', 'tencent', 'azure'],
+                        'citic': ['aws', 'alicloud', 'tencent', 'azure', 'huawei', 'u-cloud', 'baidu'],
                     },
                 },
                 'paya-lebar': {
@@ -1485,12 +1633,12 @@
                         },
                     },
                     'telco-partners': {
-                        'singtel': ['aws', 'azure', 'gcp', 'alibaba', 'office-365', 'vmware', 'dell-emc', 'hpe', 'nutanix', 'chef'],
+                        'singtel': ['aws', 'azure', 'gcp', 'alicloud', 'office-365', 'vmware', 'dell-emc', 'hpe', 'nutanix', 'chef'],
                         'starhub': ['aws', 'azure'],
                         'telstra': ['aws', 'azure', 'ibm', 'vmware', 'netapp'],
                         'm1': ['aws', 'nutanix'],
                         'hgc': ['aws', 'azure', 'office-365'],
-                        'sp-telecom': ['aws', 'azure', 'gcp', 'alibaba'],
+                        'sp-telecom': ['aws', 'azure', 'gcp', 'alicloud'],
                         'at&t': ['aws', 'azure', 'gcp', 'oracle', 'ibm', 'salesforce', 'dell-emc'],
                         'superloop': [],
                         'cogent': [],
@@ -1518,7 +1666,7 @@
                         },
                     },
                     'telco-partners': {
-                        'hgc': ['aws', 'azure', 'gcp', 'alibaba', 'salesforce', 'office-365'],
+                        'hgc': ['aws', 'azure', 'gcp', 'alicloud', 'salesforce', 'office-365'],
                         'hk-telecom': [],
                     },
                 },
@@ -1581,8 +1729,11 @@
             var pingPanel = document.querySelector('#map-ping-panel');
             var pingPanelDc = pingPanel.querySelector('[city-label="dc"]');
             var pingPanelCt = pingPanel.querySelector('[city-label="destination"]');
+            var telcoContainer = document.querySelector('#map-side-panel-b');
             var telcoBlock = document.querySelector('#telco-block');
+            var separatorBlock = document.querySelector('#telco-separator')
             var providersBlock = document.querySelector('#providers-block');
+            var providerCloudContent = document.querySelector('#providers-block-content');
 
             var showSelection = (cityName) => {
                 selectStartCont.setAttribute('active', '');
@@ -1639,12 +1790,15 @@
                     [...providersBlock.querySelectorAll('[cloud-provider]')].forEach(provider => {
                         provider.removeAttribute('show');
                     });
-
                 }
+                telcoContainer.setAttribute('on', '');
             }
 
             var closeSelection = () => {
+                telcoContainer.removeAttribute('on');
                 selectStartCont.removeAttribute('active');
+                providersBlock.removeAttribute('active');
+                separatorBlock.removeAttribute('active');
                 selectEnd.value = '';
                 selectEnd.setAttribute('disabled', '');
                 selectEndCont.setAttribute('disabled', '');
@@ -1653,12 +1807,9 @@
                     if (Object.keys(datacenterDetails).includes(group.id)) group.setAttribute('dc', '');
                     group.removeAttribute('on');
                 });
-                [...telcoBlock.querySelectorAll('[telco-partner]')].forEach(partner => {
-                    partner.removeAttribute('show');
-                });
 
-                [...providersBlock.querySelectorAll('[cloud-provider]')].forEach(provider => {
-                    provider.removeAttribute('show');
+                [...telcoBlock.querySelectorAll('[telco-partner]')].forEach(partner => {
+                    partner.removeAttribute('active');
                 });
                 closeDestination();
             }
@@ -1721,27 +1872,41 @@
                 }
             });
 
+            telcoBlock.addEventListener('click', e => {
+                if (e.currentTarget === telcoBlock) {
+                    providersBlock.removeAttribute('active');
+                    separatorBlock.removeAttribute('active');
+                    [...telcoBlock.querySelectorAll('[telco-partner]')].forEach(partner => {
+                        partner.removeAttribute('active');
+                    });
+                }
+            });
+
             [...telcoBlock.querySelectorAll('[telco-partner]')].forEach(block => {
                 block.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     telcoBlock.setAttribute('active-partner', e.currentTarget.getAttribute('telco-partner'));
                     [...telcoBlock.querySelectorAll('[telco-partner]')].forEach(partner => {
                         partner.removeAttribute('active');
                     });
                     e.currentTarget.setAttribute('active', '');
                     
+                    let numShow = 0;
                     const curProviders = datacenterDetails[selectStart.value]['telco-partners'][e.currentTarget.getAttribute('telco-partner')];
                     [...providersBlock.querySelectorAll('[cloud-provider]')].forEach(provider => {
                         if (curProviders.includes(provider.getAttribute('cloud-provider'))) {
                             provider.setAttribute('show', '');
+                            numShow++;
                         } else {
                             provider.removeAttribute('show');
                         }
                     });
+                    if (!numShow) providerCloudContent.style.display = 'none';
+                    else providerCloudContent.style.display = '';
+
+                    providersBlock.setAttribute('active', '');
+                    separatorBlock.setAttribute('active', '');
                 });
             });
-            
-            // [...providersBlock.querySelectorAll('[cloud-provider]')].forEach(e => {
-
-            // });
         </script>
     </div>
